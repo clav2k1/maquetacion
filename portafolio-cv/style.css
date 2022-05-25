@@ -1,0 +1,960 @@
+/* ******************************CUSTOM PROPERTIES (Variables CSS)************************** */
+/* root mayor jerarquia que html, alcance tipo variable global */
+:root {
+  /* colores primarios */
+  --first-color: #d90062;
+  --first-alpha-color: rgba(217,0,98,0.75);
+  --second-color: #14192d;
+  --second-alpha-color: rgba(20,25,45,0.75);
+  --third-color: #501464;
+  --third-alpha-color: rgba(80,20,100,0.75);
+
+  /* otros colores */
+  --white-color: #fff;
+  --gray-light-color: #f3f3f3;
+  --gray-color: #ccc;
+  --gray-dark-color: #666;
+  --black-color: #000;
+  --link-color: #509ee3;
+  --title-color: #333;
+  --text-color: #222;
+  --white-alpha-color: rgba(255,255,255,0.5);
+  --black-alpha-color: rgba(0,0,0,0.5);
+
+  /* tipografias */
+  --font: "Raleway", sans-serif;
+
+  /* maxima anchura del sitio */
+  --max-width: 1200px;
+
+  /* altura customizada de la cabecera 64px */
+  --header-height: 4rem;
+}
+
+/* ******************************************RESET CSS************************************* */
+/* modelo de caja */
+/* tamaño de caja empiece del borde y no desde el contenido (default) */
+/* utilizacion de variable */
+/* definicion base de tamaño de letra */
+/* efecto de transicion */
+html {
+  box-sizing: border-box;
+  font-family: var(--font);
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+/* *, (selector universal) todo el contenido generado hereden el tamaño de caja del nodo principal html */
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+/* sacar magenes al body */
+/* que no desborde en  x (oculta barra de desplazamiento) */
+/* define color de letra */
+body {
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--text-color);
+}
+
+/* enlaces */
+a {
+  color: var(--link-color);
+  transition: all 0.5s ease-out;
+}
+
+a:hover {
+  opacity: 0.75;
+}
+
+/* encabezados */
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+h5 {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+h6 {
+  margin: 0;
+  font-size: 0.7rem;
+}
+
+
+/* imagenes */
+/* hack para que las imagenes sean responsivas */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* parrafos */
+/* con interlineado */
+p {
+  line-height: 1.6;
+}
+
+/* *********************************************COMPONETS********************************* */
+/* carrusel */
+/* estilos para el carrusel */
+/* margen arriba y abajo y a los lados auto para centrar, espacio en contenido arriba y abajo y 0 a los lados */
+/* anchura maxima, centrado de contenido, color de fondo */
+/* los input en el carrusel se ocultan */
+/* estilo a las labels en bloque, como estan vacias se da un ancho y alto, se da borde */
+/* se da estilo redondeado y cursor para interactividad */
+/* margenes a los lados arriba y abajo de 0 y a los lados */
+/* a los slides se da disposicion flex para que aparezcan hacia al lado, se sacan los bulets de los li */
+/* se debe asignar un ancho del 100% por cada slide (4 slide => ancho 400%) */
+/* se aplica una transicion a la ul, y propiedades transform y translate */
+/* efecto de mover la transicion, con ~ se mueve el hermano de al lado .slides, el 1 lo posiciona en x en la posicion 0% */
+/* los % vienen dados por la cantidad de slides */
+/* se da al carrusel overflow x hidden para ocultar los otros slides */
+/* a las slide se les saca el paddin left de las bullets */
+/* efecto de relleno del indicador de slide, cuando el slide este check vaya al selector hermano nav y al label con id le da color */
+.carousel {
+  margin: 2rem auto;
+  padding: 2rem 0;
+  max-width: 800px;
+  text-align: center;
+  background-color: var(--carousel-bg-color);
+  overflow-x: hidden;
+}
+
+/* animacion para el carrusel */
+/* usa keyframes fotogramas por % aqui 4 por cada slide, si hay mas hay que recalcular con el slide adicional */
+/* los movimiento de transformacion los va a hacer la animacion */
+/* define la animacion en carousel slide con tiempo de 12 3 para cada slide y aceleracion con delay de 3s */
+@keyframes carousel-slide {
+  0% {
+    transform: translateX(0%);
+  }
+
+  25% {
+    transform: translateX(-25%);
+  }
+
+  50% {
+    transform: translateX(-50%);
+  }
+
+  75% {
+    transform: translateX(-75%);
+  }
+}
+
+.carousel input {
+  display: none;
+}
+
+.carousel label {
+  display: inline-block;
+  width: .75rem;
+  height: .75rem;
+  border: medium solid var(--gray-dark-color);
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0 .25rem;
+}
+
+.carousel .slides {
+  display: flex;
+  list-style: none;
+  width: 400%;
+  transition: transform .5s ease-in-out;
+  padding-left: 0;
+  animation: carousel-slide 12s ease-in-out 3s;
+}
+
+#slide-1:checked ~ .slides {
+  transform: translateX(0%);
+}
+
+#slide-2:checked ~ .slides {
+  transform: translateX(-25%);
+}
+
+#slide-3:checked ~ .slides {
+  transform: translateX(-50%);
+}
+
+#slide-4:checked ~ .slides {
+  transform: translateX(-75%);
+}
+
+#slide-1:checked ~ .slides-nav label#dot-1, 
+#slide-2:checked ~ .slides-nav label#dot-2,
+#slide-3:checked ~ .slides-nav label#dot-3,
+#slide-4:checked ~ .slides-nav label#dot-4 {
+  background-color: var(--gray-dark-color);
+}
+
+/* contact form */
+/* margen arriba, abajo y auto a los lados para centrar */
+/* paddin para el contenido, maxima anchura de crecimiento */
+.contact-form {
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 800px;
+}
+
+/* con selector universal da estilos a todos los elementos de contact form */
+/* padding de contenido, margen de separacion, disposiciion de bloque, acho del contenedor */
+.contact-form > * {
+  padding: .5rem;
+  margin: 1rem auto;
+  display: block;
+  width: 100%;
+}
+
+/* cambia la fuente de los input */
+.contact-form input,
+.contact-form textarea {
+  font-size: .85rem;
+  font-family: var(--font);
+}
+
+/* elimina todos los bordes y da borde al fondo de los inputs */
+/* elimina el padding left */
+.contact-form input {
+  border: 0;
+  border-bottom: thin solid var(--gray-dark-color);
+  padding-left: 0;
+}
+
+/* color al borde y triangulo de redimensionado del textarea */
+.contact-form textarea {
+  border-bottom: thin solid var(--gray-dark-color);
+  resize: none;
+}
+
+/* de todos los input seleccionamos el boton submit */
+/* sacar margen top para que se acerque al formulario, puntero */
+/* dar transicion a todas las propiedades css que se veran en hover, con tiempo y aceleracion */
+.contact-form input[type="submit"] {
+  margin-top: 0;
+  cursor: pointer;
+  transition: all .5s ease-out;
+}
+
+.contact-form input[type="submit"]:hover {
+  opacity: .75;
+}
+
+/* a todos los hijos de contact form y que tengan el atributo placeholder */
+/* da color */
+.contact-form *::placeholder {
+  color: var(--gray-dark-color);
+}
+
+/* activar el modal con id */
+.modal#gracias:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* estilos a la seccion modal */
+/* padding contenido 4 lados, ancho, alineacion de contenido, color de fondo */
+.contact-form-response {
+  padding: 1rem;
+  width: 400px;
+  text-align: center;
+  background-color: var(--white-color);
+}
+
+/* estilo al svg de response */
+/* margen superior, ancho alto, color */
+.contact-form-response svg {
+  margin-top: 2rem;
+  width: 4rem;
+  height: 4rem;
+  fill: var(--first-color);
+}
+
+/* maquetacion para el formulario en pantalla ancha */
+/* disposicion en grilla de 2 columnas, espaciado entre columnas */
+/* agranda letra, para la textarea que abarque 2 columnas */
+/* al input boton le da margen left  */
+@media screen and (min-width: 1024px){
+  .contact-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 1rem;
+  }
+
+  .contact-form textarea,
+  .contact-form-loader {
+    grid-column: span 2;
+  }
+
+  .contact-form input[type="submit"] {
+    margin-left: 0;
+  }
+}
+
+/* hero image */
+/* pone imagen de fondo atravez de una variable local pasada desde el html, sin repeticion */
+/* posicion del background centrado */
+/* tamaño del background con cover se adapte al tamaño del contenedor */
+/* efecto de attachment (scroll) fijo, tambien se pasa como variable local */
+/* hero opacity con ancho al 100, con altura minima del vh */
+/* flex y centrado para el elemento hijo content */
+/* el color de opacidad se define por variable local */
+/* tambien el color de letra se dfine por variable local */
+/* redimensionado de tamaño de letra en base tamaño pantalla */
+.hero-image {
+  background-image: var(--hero-image);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: var(--hero-attachment);
+}
+
+.hero-image-opacity {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--hero-opacity-color);
+  text-align: center;
+}
+
+.hero-image-title {
+  color: var(--hero-text-color);
+  font-size: 7.5vw;
+}
+
+
+/* menu */
+/* apariencia del boton de amburguesa */
+/* color de fondo, cambia linea de contorno con outline, cambia borde gris con 0, agrega mano para botones */
+.menu-btn {
+  outline: thin solid var(--first-color);
+  border: 0;
+  cursor: pointer;
+  background-color: var(--second-color);
+}
+
+/* darle color a los svg con fill o relleno */
+.menu-btn svg {
+  fill: var(--first-color);
+}
+
+/* se deja en none para inciar con la vista mobile */
+/* luego se hace visible y se posiciona fija izq 0 y fonde con altura de la cabecera */
+/* al ser fijo hay que dimensionar alto y ancho y color de fondo */
+/* se acomodan los elementos en flex direccion columna */
+/* se agrega opacidad para que quede oculto y cuando aparezca lo haga con una transicion */
+/* transicion sobre la opacidad con velocidad y aceleracion normal */
+/* se desabilita la interactiviad del menu mientras este en opacidad u oculto */
+.menu {
+  /* display: none; */
+  position: fixed;
+  left: 0;
+  bottom: var(--header-height);
+  width: 100%;
+  background-color: var(--second-color);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+
+
+/* clase para hacer visible e interactivo el menu */
+.menu.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* estilos a los enlaces del menu */
+/* padding a los 4 lados, tamaño letra, negrita, alinea texto, saca decoracion, color */
+.menu a {
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: var(--first-color);
+}
+
+/* estilos al menu en hover, color, background */
+.menu a:hover {
+  color: var(--white-color);
+  background-color: var(--first-color);
+}
+
+
+/* version desktop para el menu */
+/* boton amburguesa de menu sale */
+/* cambia posicionamiento del menu de fijo a estatico */
+/* deja la capacidad del menu ser visible e interactivo */
+/* los achos se adapten auto a la cantidad de enlaces */
+/* cambia la direccion de aparicion del menu de colum a row */
+/* a los enlaces cambia el padding a 0 en veritcal y 1rem para los lados */
+/* cambia color de fondo en enlaces en hover */
+/* se cambia el padding del ultimo enlace para que el borde quede igual al del logo */
+@media screen and (min-width: 1024px){
+  .menu-btn {
+    display: none;
+  }
+
+  .menu {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    width: auto;
+    flex-direction: row;
+
+  }
+
+  .menu a {
+    padding: 0 1rem;
+  }
+
+  .menu a:hover {
+    background-color: transparent;
+  }
+
+  .menu a:last-child {
+    padding-right: 0;
+  }
+
+}
+
+/* Pantalla Modal */
+/* estilos para pantalla modal */
+/* posicionamiento fijo, zindex para que este siempre al frente */
+/* estira la pantalla modal a que ocupe toda la pantalla con color de fondo y contenido centrado */
+ /* opacidad 0 no visible y no interactivo con transicion sin aceleracion*/
+/* posicionamiento del modal-content relativo para que el hijo modal-close con posicionamiento absoluto en esquina superior */
+/* cambio tamaño svg y color */
+/* uso del modal, la clase modal tiene un id y si tiene el target con el enlace aplica los estilos de aparicion del modal */
+/* para indicar que id se debe activar se utliza el selector de atributos [] con algun valor */
+/* dentro de la ventana modal hay un elemento que tenga un id con un valor */
+/* para los selectores de atributos [] se puede usar | ´ ^ (empieza, termina o este dentro alguna palabra) */
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--black-alpha-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.modal-close svg {
+  width: 3rem;
+  height: 3rem;
+  fill: var(--first-color);
+}
+
+.modal[id|="trabajo"]:target {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+  /* progress bar */
+  /* estilos para la etiqueta progress ancho, alto y color de fondo */
+  /* este componente debe tener estilos con webkit para los navegadoress */
+  /* estilos para el contenedor progress, margen arriba y abajo y auto para los lados */
+  /* estilos al parrafo hijo del contenedor progress sin margen, con disposicion flex y space between */
+  progress {
+    width: 100%;
+    height: 1rem;
+    background-color: var(--gray-color);
+  }
+
+  progress::-webkit-progress-bar {
+    background-color: var(--gray-color);
+  }
+
+  progress::-webkit-progress-value {
+    background-color: var(--gray-dark-color);
+  }
+
+  progress::-moz-progress-bar {
+    background-color: var(--gray-dark-color);
+  }
+
+  .progress {
+    margin: 1rem auto;
+  }
+
+  .progress > p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: .85rem;
+  }
+
+
+/* **********************************************UTILITES******************************** */
+/* estilos para imagenes de clientes estilo avatar */
+.avatar {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+/* efecto fondo gris */
+.bg-gray-light {
+  background-color: var(--gray-light-color);
+}
+
+/* efecto de sombra */
+.box-shadow-1 {
+  /* box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25); */
+  box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.25);
+}
+
+/* boton generico */
+/* enlaces son enlinea, se les da enlinea y bloque para aplicar padding laterales */
+.btn {
+  border-radius: 5rem;
+  padding: 1rem;
+  display: inline-block;
+  width: 200px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: var(--white-color);
+  background-color: var(--first-color);
+}
+
+/* dimensiones del container */
+/* utilizacion del ancho maximo */
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--max-width);
+}
+
+/* activa el filtro escala de grises */
+.gray-scale {
+  filter: grayscale(1);
+}
+
+
+/* clase utilitaria que aplicara espacios al fondo en los item de una seccion */
+.margin-bottom {
+  margin-bottom: 2rem;
+}
+
+/* oculta x del menu  */
+.none {
+  display: none;
+}
+
+
+/* clase utilitaria que aplicara espacios en vetical y horizontal */
+.section {
+  padding: 2rem 1rem;
+}
+
+/* estilo para titulos de seccion */
+/* borde arriba y abajo para lineas de color */
+/* ancho y magen arriba, abajo y los lados auto para centrar */
+/* paddin de ceparacion, alineado de texto y color de texto */
+.section-title {
+  border-top: thin solid var(--first-color);
+  border-bottom: thin solid var(--first-color);
+  width: 250px;
+  margin: 2rem auto;
+  padding: .5rem 1rem;
+  text-align: center;
+  color: var(--title-color);
+}
+
+
+/* alineacion de textos, para ser utilizado en los cambios de media querys */
+.text-center {
+  text-align: center;
+}
+
+.text-first-color {
+  color: var(--first-color);
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+@media screen and (min-width: 1024px){
+  /* hace que la seccion este a full screen */
+  .full-lg-screen {
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  .text-lg-center {
+    text-align: center;
+  }
+  
+  .text-lg-left {
+    text-align: left;
+  }
+  
+  .text-lg-right {
+    text-align: right;
+  }
+}
+
+/* ***************************************CUSTOM SITE STYLES**************************** */
+/* estilos a las card de contacto */
+/* margen arriba y abajo y auto a los lados para centrar, paddin para el contenido, acho del contendor, altura de diseño */
+/* orientacion flex direccion columna, espacio sobrante repartir considerando orillas, alineacion en x al centro */
+.contact-card { 
+  margin: 1rem auto;
+  padding: 1rem;
+  width: 100%;
+  height: 144px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* formato a los svg de contacto */
+/* ancho y alto iguales cuadrado y color */
+.contact-card > svg {
+  width: 2rem;
+  height: 2rem;
+  fill: var(--first-color);
+}
+
+/* formato a las etiquetas small */
+/* subir la altura con margen negativo */
+.contact-card > small {
+  margin-top: -1rem;
+}
+
+/* estilos para el pie de pagina */
+/* color de fondo, color de letra, alineacion central, separacion de contenido */
+/* en mobile se pone antes del menu, pero en tablet corregir */
+.footer {
+  background-color: var(--third-color);
+  color: var(--white-color);
+  text-align: center;
+  padding: .5rem;
+  margin-bottom: var(--header-height);
+}
+
+
+/* la estructura de la cabecera puede cambiar entre sitios */
+/* estructura mobile first - se posiciona fija y abajo y por encima de todo */
+/* espacio interno de la cabecera de 1rem */
+/* como es fija hay que dimensionar ancho y alto ancho maximo de su contenedor body */
+/* color de fondo con valor variable color secundario */
+.header {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  padding: 1rem;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--second-color);
+}
+
+/* aplica display flex (horizontal) al contenedor hijo directo del header (>) */
+/* justificacion horizontal con espacios entre medio */
+/* alineacion vertical en el centro */
+.header > .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* estilo al enlace del logo */
+/* color letra con negrita con tamaño 2rem sin decoracion al enlace */
+.logo a {
+  color: var(--first-color);
+  font-weight: bold;
+  font-size: 2rem;
+  text-decoration: none;
+}
+
+/* estilos a portfolio card */
+/* posicionamiento de la tarjeta de manera relativa */
+/* ancho 100% del contenedor */
+/* margen arriba y abajo 0 y auto a los lados para centrar */
+/* diplay block para esten uno debajo del otro */
+.portfolio-card {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+/* estilos a la imagen de la portfolio card */
+/* asume el tamaño del contenedor ancho y alto */
+/* cover para evitar deformamiento de imagen */
+.portfolio-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* estilos al card info aside donde viene la informacion */
+/* con posicionamento abosulto para que se pueda mover dentro del elemnto padre aqui sobre el padre y herede acho y alto */
+/* da color de fondo, color de letra, pading para cerparar el texto del borde */
+/* le da opacidad cero al inicio por que se activa con hover e interactivad 0 */
+/* efecto de transicion */
+.portfolio-card-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--first-alpha-color);
+  color: var(--white-color);
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all .5s ease-in-out;
+}
+
+/* activacion de info */
+/* hover del enlace */
+.portfolio-card:hover .portfolio-card-info {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* estilo al contenedor hija de portfolio card info */
+/* ceparacion del borde, marca el borde */
+/* da alto y ancho al maximo del contenedor padre */
+.portfolio-card-info > div {
+  padding: 1rem;
+  border: thin solid var(--white-color);
+  width: 100%;
+  height: 100%;
+}
+
+
+/* estilos al contenido de la ventana modal */
+/* color de fondo, espaciado del contenido y anchura maxia */
+/* da displey flex en colmna para asegurar la disposicion de la pantalla modal */
+.portfolio-modal {
+  background-color: var(--white-color);
+  padding: 1rem;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* estilos al detalle del modal */
+/* ordenamiento con grid en 2 colum con % y filas implicitamente con medida */
+.portfolio-details {  
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-auto-rows: 2rem;
+}
+
+/* estilos a las letras en negrita al color primario */
+.portfolio-details b {
+  color: var(--first-color);
+}
+
+/* estilo al titulo del detalle */
+/* padding y margen arriba, abajo y a los lados, color de titulo */
+.portfolio-modal h3 {
+  border-bottom: medium solid var(--first-color);
+  padding: .5rem 0;
+  margin: 1rem auto;
+  color: var(--title-color);
+}
+
+/* estilo de tarjetas de servicio */
+/* margen arriba y abajo, a los lados auto para centrar */
+/* espaciado padding a los 4 lados  */
+/* centrar el contenido */
+.service-card {
+  margin: 1rem auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* aplica color de letra a los titulos de las card */
+.service-card h3 {
+  color: var(--title-color);
+}
+
+/* cambia el color del svg con fill */
+/* aplica margen al fondo para ceparar */
+.service-card svg {
+  fill: var(--first-color);
+  margin-bottom: 1.25rem;
+}
+
+/* estilos para las etiquetas sociales de contacto */
+/* a los enlaces elimina text decoration */
+/* padding para separar a los lados */
+.social-media a {
+  text-decoration: none;
+  padding: 0 .4rem;
+}
+
+/* dimensiona tamaño */
+.social-media svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* media querys para el tamaño de la pantalla */
+/* estilo mobile first */
+/* version tablet */
+/* aplica grid al contenedor de seccion portfolio */
+/* especifica columnas sin espaciado */
+/* al fijar 2 columnas el titulo queda en la grilla para ampliarlo se usa span */
+/* fija maquetado en direccion flex row y modifica la maxima anchura */
+/* en la info da margen y alineacion vertical */
+/* aplica grid al contenedor de seccion servicios */
+/* especifica columnas y espaciado entre columnas, alineacion vertical center */
+/* al fijar 2 columnas el titulo queda en la grilla para ampliarlo se usa span */
+@media screen and (min-width: 768px){
+  /* disposicion de grilla en columna y espaciado entre elementos */
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 48%);
+    justify-content: space-between;
+  }
+
+  .portfolio > .container {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+  }
+
+  .portfolio .section-title {
+    grid-column: span 2;
+  }
+
+  .portfolio-modal {
+    flex-direction: row;
+    max-width: 800px;
+  }
+
+  .portfolio-info {
+    margin-left: 1rem;
+    align-self: center;
+  }
+  
+  .services > .container {
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  .services .section-title {
+    grid-column: span 2;
+  }
+}
+
+/* version desktop */
+/* cambia posicion cabecera de fix a sticky (mescla entre fijo y relativo, se keda fijo hasta una altura definida) */
+/* posicionado al tope superior, con sticky no tapa el contenido a continuacion */
+/* reduce pading a 0.5rem */
+/* la altura se normaliza restando los 0.5rem con funcion calc */
+/* para la seccion about display grid para los 3 article con disposicion de 3 colum al 30% y alineacion con inter espacio */
+/* align-content alinea en el eje y */
+/* aplica grid para seccion porfolio ya definido en el otro media */
+/* especifica columnas y proporcional entre columnas 1fr, alineacion vertical center definido en el otro media */
+/* al fijar 3 columnas el titulo queda en la grilla para ampliarlo se usa span */
+/* aplica grid para seccion servicios ya definido en el otro media */
+/* especifica columnas y espaciado entre columnas, alineacion vertical center definido en el otro media */
+/* al fijar 3 columnas el titulo queda en la grilla para ampliarlo se usa span */
+@media screen and (min-width: 1024px){
+  .about {
+    display: grid;
+    grid-template-columns: repeat(3,30%);
+    justify-content: space-between;
+    align-content: center;
+  }
+
+  /* disposicion de grilla en columna y espaciado entre elementos */
+  .contact-cards {
+    grid-template-columns: repeat(4, 24%);
+  }
+
+  /* modifica posicion del footer de mobile a desktop */
+  .footer {
+    margin-bottom: 0;
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    padding: 0.5rem;
+    height: calc(var(--header-height) - 0.5rem);
+  }
+
+  .portfolio > .container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .portfolio .section-title {
+    grid-column: span 3;
+  }
+
+  .services > .container {
+    grid-template-columns: repeat(3, 30%);
+  }
+
+  .services .section-title {
+    grid-column: span 3;
+  }
+}
